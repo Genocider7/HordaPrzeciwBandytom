@@ -1,11 +1,11 @@
-from numpy import mean, std
+from numpy import mean
 from random import choice
 
 class Gosc:
-    def __init__(self, machine_count, testing_pulls = 10):
+    def __init__(self, machine_count):
         self.machine_results = {}
         self.results = []
-        self.testing_pulls = testing_pulls
+        self.tried_machines = 0
         for i in range(machine_count):
             self.machine_results[i] = []
 
@@ -13,18 +13,20 @@ class Gosc:
         self.results.append(result)
         self.machine_results[machine].append(result)
 
-    def get_data(self):
-        return mean(self.results), std(self.results)
+    def get_mean(self):
+        return mean(self.results)
     
-    def get_data_from_machine(self, machine):
-        return mean(self.machine_results[machine]), std(self.machine_results[machine])
+    def get_mean_from_machine(self, machine):
+        return mean(self.machine_results[machine])
     
     def choose_machine(self):
-        if len(self.results) < self.testing_pulls:
-            machine_numbers = list(self.machine_results.keys())
+        if self.tried_machines < len(self.machine_results):
+            self.tried_machines += 1
+            return self.tried_machines - 1
         else:
-            machine_numbers = [machine for machine in self.machine_results.keys() if self.get_data_from_machine(machine)[0] >= self.get_data()[0]]
-        return choice(machine_numbers)
+            global_mean = self.get_mean()
+            machine_numbers = [machine for machine in self.machine_results.keys() if self.get_mean_from_machine(machine) >= global_mean]
+            return choice(machine_numbers)
     
     def get_favorite_machine(self):
         biggest = 0
