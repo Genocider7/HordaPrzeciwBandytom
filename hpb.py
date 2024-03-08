@@ -25,7 +25,7 @@ def main():
     machines = []
     guests = []
     for _ in range(machine_count):
-        machines.append(Bandyta(randrange(center_scale*centered_value*(1-centered_range), center_scale*centered_value*(1+centered_range), center_scale*centered_step)/center_scale, randrange(deviation_scale*deviation_range[0], deviation_scale*deviation_range[1], deviation_scale*deviation_step)/deviation_scale))
+        machines.append(Bandyta(randrange(int(center_scale*centered_value*(1-centered_range)), int(center_scale*centered_value*(1+centered_range)), int(center_scale*centered_step))/center_scale, randrange(int(deviation_scale*deviation_range[0]), int(deviation_scale*deviation_range[1]), int(deviation_scale*deviation_step))/deviation_scale))
     for _ in range(guest_count):
         guests.append(Gosc(machine_count))
 
